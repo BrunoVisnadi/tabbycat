@@ -88,10 +88,10 @@ if not os.environ.get('DISABLE_SENTRY'):
         send_default_pii=True,
         release=TABBYCAT_VERSION,
     )
-if os.getenv("DISABLE_CHANNELS_WORKER", "1") == "1":
-    # Use canal em memória para os Consumers ligados ao servidor ASGI
-    CHANNEL_LAYERS = {
-        "default": {
-            "BACKEND": "channels.layers.InMemoryChannelLayer",
-        },
-    }
+# if os.getenv("DISABLE_CHANNELS_WORKER", "1") == "1":
+#     # Use canal em memória para os Consumers ligados ao servidor ASGI
+#     CHANNEL_LAYERS = {
+#         "default": {
+#             "BACKEND": "channels.layers.InMemoryChannelLayer",
+#         },
+#     }
