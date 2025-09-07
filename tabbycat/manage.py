@@ -1,18 +1,14 @@
 #!/usr/bin/env python
-import os
-import sys
+import os, sys
+from pathlib import Path
+
+# garante que "tabbycat/" está no sys.path, para importar "actionlog", etc.
+BASE_DIR = Path(__file__).resolve().parent  # .../tabbycat
+if str(BASE_DIR) not in sys.path:
+    sys.path.insert(0, str(BASE_DIR))
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "tabbycat.settings")
 
 if __name__ == '__main__':
-
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "tabbycat.settings")
-
-    try:
-        from django.core.management import execute_from_command_line
-    except ImportError as exc:
-        raise ImportError(
-            "Couldn't import Django. Are you sure it's installed and "
-            "available on your PYTHONPATH environment variable? Did you "
-            "forget to activate a virtual environment?",
-        ) from exc
-
+    from django.core.management import execute_from_command_line
     execute_from_command_line(sys.argv)
