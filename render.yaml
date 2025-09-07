@@ -13,6 +13,8 @@ services:
     buildCommand: "./bin/render-compile.sh"
     startCommand: "gunicorn tabbycat.wsgi:application --bind 0.0.0.0:$PORT --workers 1 --timeout 120"
     envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: tabbycat.settings
       - key: DISABLE_CHANNELS_WORKER
         value: "1"
       - key: DATABASE_URL
