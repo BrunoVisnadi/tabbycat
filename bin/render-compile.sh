@@ -1,26 +1,26 @@
 #!/usr/bin/env bash
 # exit on error
 set -o errexit
+set -o pipefail
 
 echo "-----> Install dependencies"
-python -m pip install pipenv
-pipenv install --system
-
-echo "-----> I'm post-compile hook"
-cd ./tabbycat/
+python -m pip install --upgrade pip pipenv
+pipenv install --system --deploy --ignore-pipfile
 
 echo "-----> Running database migration"
-python manage.py migrate --noinput
+python -m tabbycat.manage migrate --noinput
 
 echo "-----> Running dynamic preferences checks"
-python manage.py checkpreferences
+python -m tabbycat.manage checkpreferences
 
-echo "-----> Running static asset compilation"
+echo "-----> Installing frontend dependencies"
 npm install -g @vue/cli-service-global
-npm install
+npm ci --only=production
+
+echo "-----> Building frontend assets"
 npm run build
 
-echo "-----> Running static files compilation"
-python manage.py collectstatic --noinput
+echo "-----> Collecting static files"
+python -m tabbycat.manage collectstatic --noinput -v 0
 
 echo "-----> Post-compile done"
