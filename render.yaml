@@ -11,7 +11,7 @@ services:
     plan: free
     region: oregon
     buildCommand: "./bin/render-compile.sh"
-    startCommand: "daphne -b 0.0.0.0 -p $PORT asgi:application"
+    startCommand: "gunicorn wsgi:application --bind 0.0.0.0:$PORT --workers 2 --timeout 120"
     envVars:
       - key: DISABLE_CHANNELS_WORKER
         value: "1"
